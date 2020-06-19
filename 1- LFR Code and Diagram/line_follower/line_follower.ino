@@ -1,69 +1,85 @@
-int S_A = 11;  //speed motor a
-int M_A1 = 2; //motor a = +
-int M_A2 = 3; //motor a = -
-int M_B1 = 4; //motor b = -
-int M_B2 = 5; //motor b = +
-int S_B = 10;  //speed motor b
+//Using #define to separate system variables, and port numbers
 
-int R_S = A0; //sensor R
-int S_S = A1; //sensor S
-int L_S = A2; //sensor L
+#define speedMotorA 11 //speed motor a
+#define motorAPositive 2 //motor a = +
+#define motorANegative 3 //motor a = -
+#define motorBNegative 4 //motor b = -
+#define motorBPositive 5 //motor b = +
+#define speedMotorB 10  //speed motor b
+
+#define rightSensor A0 //sensor R
+#define centralSensor A1 //sensor S
+#define leftSensor A2 //sensor L
 
 void setup() 
 {
-pinMode(M_B1, OUTPUT); 
-pinMode(M_B2, OUTPUT);
-pinMode(M_A1, OUTPUT);
-pinMode(M_A2, OUTPUT);
-pinMode(S_B, OUTPUT);
-pinMode(S_A, OUTPUT);
+pinMode(motorAPositive, OUTPUT); 
+pinMode(motorANegative, OUTPUT);
+pinMode(motorBPositive, OUTPUT);
+pinMode(motorBNegative, OUTPUT);
+pinMode(speedMotorA, OUTPUT);
+pinMode(speedMotorB, OUTPUT);
 
-pinMode(L_S, INPUT);
-pinMode(S_S, INPUT);
-pinMode(R_S, INPUT);
+pinMode(leftSensor, INPUT);
+pinMode(centralSensor, INPUT);
+pinMode(rightSensor, INPUT);
 
-analogWrite(S_A, 150); 
-analogWrite(S_B, 150); 
+analogWrite(speedMotorA, 150); 
+analogWrite(speedMotorB, 150); 
 delay(200);
 }
 void loop()
 {  
-if ((digitalRead(L_S) == 0)&&(digitalRead(S_S) == 1)&&(digitalRead(R_S) == 0)){forword();}
+if ((digitalRead(leftSensor) == 0)&&(digitalRead(centralSensor) == 1)&&(digitalRead(rightSensor) == 0)){
+  forword();
+ }
 
-if ((digitalRead(L_S) == 1)&&(digitalRead(S_S) == 1)&&(digitalRead(R_S) == 0)){turnLeft();}
-if ((digitalRead(L_S) == 1)&&(digitalRead(S_S) ==0)&&(digitalRead(R_S) == 0)) {turnLeft();}
+else if ((digitalRead(leftSensor) == 1)&&(digitalRead(centralSensor) == 1)&&(digitalRead(rightSensor) == 0)){
+  turnLeft();
+ }
+  
+else if ((digitalRead(leftSensor) == 1)&&(digitalRead(centralSensor) ==0)&&(digitalRead(rightSensor) == 0)) {
+  turnLeft();
+ }
 
-if ((digitalRead(L_S) == 0)&&(digitalRead(S_S) == 1)&&(digitalRead(R_S) == 1)){turnRight();}
-if ((digitalRead(L_S) == 0)&&(digitalRead(S_S) == 0)&&(digitalRead(R_S) == 1)){turnRight();}
+else if ((digitalRead(leftSensor) == 0)&&(digitalRead(centralSensor) == 1)&&(digitalRead(rightSensor) == 1)){
+  turnRight();
+ }
+  
+else if ((digitalRead(leftSensor) == 0)&&(digitalRead(centralSensor) == 0)&&(digitalRead(rightSensor) == 1)){
+  turnRight();
+ }
 
-if ((digitalRead(L_S) == 1)&&(digitalRead(S_S) == 1)&&(digitalRead(R_S) == 1)){Stop();}
+else if((digitalRead(leftSensor) == 1)&&(digitalRead(centralSensor) == 1)&&(digitalRead(rightSensor) == 1)){
+  Stop();
+  }
 }
 
 void forword(){
-digitalWrite(M_A1, LOW);
-digitalWrite(M_A2, HIGH);
-digitalWrite(M_B1, HIGH);
-digitalWrite(M_B2, LOW);  
+digitalWrite(motorAPositive, LOW);
+digitalWrite(motorANegative, HIGH);
+digitalWrite(motorBNegative, HIGH);
+digitalWrite(motorBPositive, LOW);  
 }
 
 
 void turnRight(){
-digitalWrite(M_A1, LOW);
-digitalWrite(M_A2, LOW);
-digitalWrite(M_B1, HIGH);
-digitalWrite(M_B2, LOW);  
+digitalWrite(motorAPositive, LOW);
+digitalWrite(motorBNegative, LOW);
+digitalWrite(motorBNegative, HIGH);
+digitalWrite(motorBPositive, LOW);  
 }
 
 void turnLeft(){
-digitalWrite(M_A1, LOW);
-digitalWrite(M_A2, HIGH);
-digitalWrite(M_B1, LOW);
-digitalWrite(M_B2, LOW);
+digitalWrite(motorAPositive, LOW);
+digitalWrite(motorANegative, HIGH);
+digitalWrite(motorBNegative, LOW);
+digitalWrite(motorBPositive, LOW);
 }
 
 void Stop(){
-digitalWrite(M_A1, LOW);
-digitalWrite(M_A2, LOW);
-digitalWrite(M_B1, LOW);
-digitalWrite(M_B2, LOW);
+digitalWrite(motorAPositive, LOW);
+digitalWrite(motorANegative, LOW);
+digitalWrite(motorBNegative, LOW);
+digitalWrite(motorBPositive, LOW);
 }
